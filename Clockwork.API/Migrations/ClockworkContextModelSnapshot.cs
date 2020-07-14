@@ -34,6 +34,14 @@ namespace Clockwork.API.Migrations
 
                     b.ToTable("CurrentTimeQueries");
                 });
+            modelBuilder.Entity("Clockwork.API.Models.TimeZones", b =>
+            {
+                b.Property<int>("TimeZoneId").ValueGeneratedOnAdd();
+                b.Property<string>("TimeZoneName");
+                b.Property<int>("TimeZoneValue");
+                b.HasKey("TimeZoneId");
+                b.ToTable("TimeZones");
+            });
 #pragma warning restore 612, 618
         }
     }
