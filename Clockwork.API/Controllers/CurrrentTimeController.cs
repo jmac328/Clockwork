@@ -24,7 +24,7 @@ namespace Clockwork.API.Controllers
                 UTCTime = utcTime,
                 ClientIp = ip,
                 Time = serverTime,
-                SelectedTimeZone = TimeZoneInfo.Local.DisplayName
+                SelectedTimeZone = TimeZoneInfo.Local.Id
             };
 
             using (var db = new ClockworkContext())
@@ -40,7 +40,8 @@ namespace Clockwork.API.Controllers
                 }
             }
 
-            return Ok(returnVal);
+            //return Ok(returnVal);
+            return Ok(TimeZoneService.GetTime(TimeZoneInfo.Local.Id).ToString());
         }
 
         [Route("api/timeZones")]
@@ -92,8 +93,6 @@ namespace Clockwork.API.Controllers
             try
             {
                 return Ok(currentTime.ToString());
-                //return Ok(TimeZoneService.GetTime(timeZoneName));
-                //return Ok(TimeZoneService.AdjustedCurrentTime(DateTime.UtcNow, timeZoneValue));
             }
             catch (Exception ex)
             {
@@ -107,14 +106,14 @@ namespace Clockwork.API.Controllers
         {
             try
             {
-                var returnVal = new List<CurrentTimeQuery>();
+                var result = new List<CurrentTimeQuery>();
 
                 using (var db = new ClockworkContext())
                 {
-                    returnVal.AddRange(db.CurrentTimeQueries.ToList());
+                    result.AddRange(db.CurrentTimeQueries.ToList());
                 }
 
-                return Ok(returnVal);
+                return Ok(result);
             }
             catch (Exception ex)
             {

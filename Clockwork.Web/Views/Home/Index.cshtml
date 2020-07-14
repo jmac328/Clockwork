@@ -1,6 +1,4 @@
-﻿@model List<Clockwork.Web.Models.CurrentTimeQueryViewModel>
-
-    <script>
+﻿<script>
     function UserAction() {
         var xhttp = new XMLHttpRequest();
         xhttp.onreadystatechange = function () {
@@ -62,7 +60,7 @@
         xhttp.onreadystatechange = function () {
             if (this.readyState == 4 && this.status == 200 && !this.hasTimeZones) {
                 var response = JSON.parse(this.responseText);
-                
+
                 document.getElementById("output").innerHTML = BuildRequestTable(response);
             }
         };
@@ -70,7 +68,7 @@
         xhttp.open("GET", "http://localhost:5000/api/getall", true);
         xhttp.setRequestHeader("Content-type", "application/json");
         xhttp.send();
-        
+
     }
 
     function BuildRequestTable(list) {
@@ -93,43 +91,47 @@
             result += "<td>" + list[i].selectedTimeZone + "</td>";
             result += "</tr>";
         }
-            result += "</tbody>";
+        result += "</tbody>";
         result += "</table>";
         return result;
-        }
+    }
 
     function HideAllRequests() {
         document.getElementById("output").innerHTML = "";
     }
 
     window.onload = GetAllTimeZones()
-    </script>
+</script>
 
 
 <h2>AWH Clockwork Project @ViewData["Version"] on @ViewData["Runtime"]!</h2>
-
+<br />
+<br />
+<br />
 <label for="timeZoneDropdown">Select a Time Zone</label>
 <select id="timeZoneDropdown"></select>
 <br />
 <br />
 <br />
+<div class="btn-group btn-toolbar">
+    <button class="btn btn-primary" type="submit" onclick="UpdateTimeZone()">Get Time In Selected Zone</button>
 
-<button class="btn btn-primary" type="submit" onclick="UpdateTimeZone()">Get Time In Selected Zone</button>
+    <br />
+    <br />
+    <br />
 
+    <button class="btn btn-primary" type="submit" onclick="UserAction()">Get the time</button>
+
+    <br />
+    <br />
+    <br />
+
+    <button class="btn btn-primary" type="submit" onclick="GetAllRequests()">Show All Requests</button>
+    <br />
+    <br />
+    <button class="btn btn-primary" type="submit" onclick="HideAllRequests()">Hide All Requests</button>
+</div>
 <br />
 <br />
 <br />
-
-<button class="btn btn-primary" type="submit" onclick="UserAction()">Get the time</button>
-
 <p id="output"></p>
-
-<br />
-<br />
-<br />
-
-<button class="btn btn-primary" type="submit" onclick="GetAllRequests()">Show All Requests</button>
-<br />
-<br />
-<button class="btn btn-primary" type="submit" onclick="HideAllRequests()">Hide All Requests</button>
-

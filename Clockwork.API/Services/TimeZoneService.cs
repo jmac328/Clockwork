@@ -18,61 +18,6 @@ namespace Clockwork.API.Services
             return newHour;
         }
 
-        public static string AdjustedCurrentTime (DateTime time, int timeZoneValue)
-        {
-            var result = "";
-            var hour = AdjustedTime(time.TimeOfDay.Hours, timeZoneValue);
-
-            result = "The current time is " + hour + ":" + time.TimeOfDay.Minutes + ":" + time.TimeOfDay.Seconds + " The date is " + time.Month + "/" + time.Day + "/" + time.Year;
-
-            return result;
-        }
-
-        public static List<string> GetTimeZones()
-        {
-            using (var connection = new SqliteConnection("Data Source=clockwork.db"))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText = @"Select TimeZoneName from TimeZones";
-
-                var timeZones = new List<string>();
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                        var timeZoneName = reader.GetString(0);
-                        timeZones.Add(timeZoneName);
-                    }
-                }
-                return timeZones;
-            }
-        }
-
-        public static int GetTimeZoneValue(string timeZoneName)
-        {
-            using (var connection = new SqliteConnection("Data Source=clockwork.db"))
-            {
-                connection.Open();
-
-                var command = connection.CreateCommand();
-                command.CommandText = $@"Select TimeZoneValue from TimeZones where TimeZoneName = '{ timeZoneName }'";
-
-                var timeZoneValue = 0;
-
-                using (var reader = command.ExecuteReader())
-                {
-                    while (reader.Read())
-                    {
-                       timeZoneValue = reader.GetInt32(0);  
-                    }
-                }
-                return timeZoneValue;
-            }
-        }
-
         public static List<string> GetAllTimeZones()
         {
             List<string> timeZones = new List<string>();
